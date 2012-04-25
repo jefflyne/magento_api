@@ -2,7 +2,7 @@
 require File.expand_path('../lib/magento-rpc/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Peter Hoeg"]
+  gem.authors       = ['Peter Hoeg', 'Tim Matheson']
   gem.email         = ["peter@speartail.com"]
   gem.description   = %q{Enables connecting to a Magento Store via their API}
   gem.summary       = %q{Enables connecting to a Magento Store via their API}
