@@ -1,4 +1,3 @@
-require 'magento'
 module Magento
   class Order < Abstract
     def self.list(*args)

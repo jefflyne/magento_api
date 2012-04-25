@@ -1,4 +1,3 @@
-require 'magento'
 module Magento #:nodoc:
   class Shipment < Abstract #:nodoc:
     CARRIERS = { :usps => "usps", :ups => "ups", :dhl => "dhl", :fedex => "fedex" }

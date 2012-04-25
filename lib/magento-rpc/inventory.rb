@@ -1,4 +1,3 @@
-require 'magento'
 module Magento
   class Inventory < Abstract
     def new(attributes = {})

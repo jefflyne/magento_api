@@ -1,4 +1,3 @@
-require 'magento'
 module Magento #:nodoc:
   class Region < Abstract #:nodoc:
     def self.list(country = nil)

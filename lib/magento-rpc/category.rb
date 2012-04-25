@@ -1,4 +1,3 @@
-require 'magento'
 module Magento
   class Category < Abstract
     def current_store(store_view = nil)
