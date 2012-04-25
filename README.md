@@ -43,9 +43,9 @@ Or install it yourself as:
 Edit config/config.yml and add your magento api username and api key to the file.
 
 Get a single customer with an ID of 1 (all attributes are available now as array indexes)
-        customer = Magento::Customer.find("1")
-        customer['firstname'] => "Tim"
-        customer['lastname'] => "Matheson"
+    customer = Magento::Customer.find("1")
+    customer['firstname'] => "Tim"
+    customer['lastname'] => "Matheson"
 
 ## Contributing
 
@@ -54,28 +54,8 @@ Get a single customer with an ID of 1 (all attributes are available now as array
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
-== Magento ===================
 
+## Issues
 
-
-== Issues ====================
-
-A patch needs to be applied to XMLRPC for this to work.
-Without the patch you will most likely get this error.
-"wrong/unknown XML-RPC type 'nil'"
-
-Locate the xmlrpc gem on your system.
-
-Edit the config.rb file, find it in your system, locate the gem directory.
-
-Around line 23
-
-change to this
-  
-  ENABLE_NIL_PARSER    = false
-
-to this
-
-  ENABLE_NIL_PARSER    = true
-
-This will prevent the parser from raising exceptions when nil nodes are returned.
+There was previously an issue with "wrong/unknown XML-RPC type 'nil'"
+This should however be fixed but do shout if that is not the case.
