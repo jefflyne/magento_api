@@ -1,14 +1,9 @@
-require 'rubygems'
-require 'rake'
-require 'echoe'
+#!/usr/bin/env rake
+require "bundler/gem_tasks"
 
-Echoe.new('magento-api', '0.1.0') do |p|
-  p.description              = "Rubygem for connecting to a Magento store via the Magento Core API"
-  p.url                      = ""
-  p.author                   = "Tim Matheson"
-  p.email                    = "me@timmatheson.com"
-  p.ignore_pattern           = ["tmp/*","script/*"]
-  p.development_dependencies = []
-end
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new('spec')
 
-Dir["#{File.dirname(__FILE__)}/lib/tasks/*.rake"].sort.each { |ext| load ext }
+Dir.glob(File.join('tasks', '*.rake')).each { |r| import r }
+
+task :default => :spec

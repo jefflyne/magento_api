@@ -1,6 +1,3 @@
-require 'magento'
-require 'abstract'
-
 module Magento
   class Customer < Abstract
     
