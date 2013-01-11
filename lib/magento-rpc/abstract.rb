@@ -1,12 +1,12 @@
 module Magento
   class Abstract
     attr_accessor :attributes
-    
+
     def initialize(attributes = {})
       @connection = Magento::Connection.new
       @attributes = attributes.dup
     end
-    
+
     def self.connect
       @connection ||= Magento::Connection.new
     end
@@ -28,12 +28,12 @@ module Magento
         send(k + "=", v)
       end
     end
-    
+
     def self.commit(method, *args)
       connect
       @connection.call(method, args)
     end
-    
+
     def method_missing(method, *args)
       return nil unless @attributes
       @attributes[method.to_s]
