@@ -22,16 +22,18 @@ require "magento-rpc/version"
 
 XMLRPC::Config.const_set(:ENABLE_NIL_PARSER, true)
 
+
 module Magento
-  class Connection 
+  class Connection
     attr_accessor :client
+
     def initialize(*args)
       @config = Configuration.new
-      @client = XMLRPC::Client.new(@config.host,@config.path,@config.port)
+      @client = XMLRPC::Client.new(@config.host, @config.path, @config.port)
       @session = @client.call("login", @config.username, @config.api_key)
       self
     end
-    
+
     def call(method = nil, *args)
       client.call("call", @session, method, args)
     end
