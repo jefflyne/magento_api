@@ -7,8 +7,8 @@ module Magento
       @attributes = attributes.dup
     end
 
-    def self.connect
-      @connection ||= Magento::Connection.new
+    def self.call(method, args)
+      self.connect.call(method, args)
     end
 
     def self.first
@@ -38,5 +38,12 @@ module Magento
       return nil unless @attributes
       @attributes[method.to_s]
     end
+
+    private
+
+    def self.connect
+      @connection ||= Magento::Connection.new
+    end
+
   end
 end
