@@ -7,6 +7,7 @@ require "magento-rpc/version"
 require 'magento-rpc/abstract'
 require 'magento-rpc/catalog_category'
 require 'magento-rpc/catalog_product'
+require 'magento-rpc/catalog_product_attribute'
 require 'magento-rpc/catalog_product_attribute_media'
 
 
@@ -18,12 +19,33 @@ module Magento
     def initialize
       @config = Configuration.instance
       @client = XMLRPC::Client.new(@config.host, @config.path, @config.port)
-      @session = @client.call('login', @config.username, @config.api_key)
+      process_request do
+        @session = @client.call('login', @config.username, @config.api_key)
+      end
       self
     end
 
     def call(method = nil, args)
-      @client.call('call', @session, method, args)
+      process_request do
+        @client.call('call', @session, method, args)
+      end
+    end
+
+    def process_request
+      retry_count = 0
+
+      begin
+        return yield
+      rescue => e
+        case e
+        when EOFError then
+          raise e if retry_count == 3
+          retry_count+=1
+          retry
+        else
+          raise e
+        end
+      end
     end
   end
 end

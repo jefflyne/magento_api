@@ -7,5 +7,9 @@ module Magento
     def self.info(*args)
       return call('catalog_product.info', args)
     end
+
+    def self.listOfAdditionalAttributes(*args)
+      return call('catalog_product.listOfAdditionalAttributes', args)
+    end
   end
 end
