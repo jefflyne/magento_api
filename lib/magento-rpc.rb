@@ -42,6 +42,11 @@ module Magento
           raise e if retry_count == 3
           retry_count+=1
           retry
+        when Timeout::Error then
+          raise e if retry_count == 3
+          retry_count+=1
+          sleep(60)
+          retry
         else
           raise e
         end
