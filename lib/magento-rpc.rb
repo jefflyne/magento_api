@@ -16,6 +16,10 @@ XMLRPC::Config.const_set(:ENABLE_NIL_PARSER, true)
 
 module Magento
   class Connection
+    MAX_RETRIES = 5
+    BACKOFF_FACTOR = 5
+
+
     def initialize
       @config = Configuration.instance
       @client = XMLRPC::Client.new(@config.host, @config.path, @config.port)
@@ -38,14 +42,10 @@ module Magento
         return yield
       rescue => e
         case e
-        when EOFError then
-          raise e if retry_count == 3
+        when EOFError, Timeout::Error then
+          raise e if retry_count == MAX_RETRIES
           retry_count+=1
-          retry
-        when Timeout::Error then
-          raise e if retry_count == 3
-          retry_count+=1
-          sleep(60)
+          sleep(retry_count * BACKOFF_FACTOR)
           retry
         else
           raise e
