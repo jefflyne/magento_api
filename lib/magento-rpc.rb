@@ -9,6 +9,7 @@ require 'magento-rpc/catalog_category'
 require 'magento-rpc/catalog_product'
 require 'magento-rpc/catalog_product_attribute'
 require 'magento-rpc/catalog_product_attribute_media'
+require 'magento-rpc/catalog_inventory_stock_item'
 
 
 XMLRPC::Config.const_set(:ENABLE_NIL_PARSER, true)
@@ -18,11 +19,13 @@ module Magento
   class Connection
     MAX_RETRIES = 5
     BACKOFF_FACTOR = 5
+    TIMEOUT = 60
 
 
     def initialize
       @config = Configuration.instance
       @client = XMLRPC::Client.new(@config.host, @config.path, @config.port)
+      @client.timeout = TIMEOUT
       process_request do
         @session = @client.call('login', @config.username, @config.api_key)
       end
