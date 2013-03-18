@@ -21,6 +21,16 @@ module Magento
     BACKOFF_FACTOR = 5
     TIMEOUT = 60
 
+    private_class_method :new
+    @@instance = nil
+
+    def self.instance()
+      if @@instance.nil?
+        @@instance = new
+      end
+
+      return @@instance
+    end
 
     def initialize
       @config = Configuration.instance
@@ -45,7 +55,7 @@ module Magento
         return yield
       rescue => e
         case e
-        when EOFError, Timeout::Error then
+        when EOFError, Timeout::Error, Errno::EPIPE, Errno::ECONNRESET then
           raise e if retry_count == MAX_RETRIES
           retry_count+=1
           sleep(retry_count * BACKOFF_FACTOR)

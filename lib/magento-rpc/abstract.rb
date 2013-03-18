@@ -3,7 +3,7 @@ module Magento
     attr_accessor :attributes
 
     def initialize(attributes = {})
-      @connection = Magento::Connection.new
+      @connection = Magento::Connection.instance()
       @attributes = attributes.dup
     end
 
@@ -42,8 +42,7 @@ module Magento
     private
 
     def self.connect
-      @connection ||= Magento::Connection.new
+      @connection ||= Magento::Connection.instance()
     end
-
   end
 end
