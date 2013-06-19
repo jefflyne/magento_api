@@ -5,6 +5,7 @@ require 'magento-rpc/extensions'
 require "magento-rpc/version"
 
 require 'magento-rpc/abstract'
+require 'magento-rpc/datafeedwatch'
 require 'magento-rpc/catalog_category'
 require 'magento-rpc/catalog_product'
 require 'magento-rpc/catalog_product_attribute'
@@ -12,14 +13,14 @@ require 'magento-rpc/catalog_product_attribute_media'
 require 'magento-rpc/catalog_inventory_stock_item'
 
 
-XMLRPC::Config.const_set(:ENABLE_NIL_PARSER, true)
+XMLRPC::Config.send(:const_set, :ENABLE_NIL_PARSER, true)
 
 
 module Magento
   class Connection
     MAX_RETRIES = 5
     BACKOFF_FACTOR = 5
-    TIMEOUT = 60
+    TIMEOUT = 300
 
     private_class_method :new
     @@instance = nil
@@ -43,9 +44,13 @@ module Magento
     end
 
     def call(method = nil, args)
+      response = nil
+
       process_request do
-        @client.call('call', @session, method, args)
+        response = @client.call('call', @session, method, args)
       end
+
+      return response
     end
 
     def process_request
